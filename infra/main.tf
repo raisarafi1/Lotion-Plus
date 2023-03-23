@@ -25,3 +25,33 @@ output "bucket_name" {
 }
 
 # add the next part of the infrasturcture code from the notes once the functions are made 
+
+# read the docs: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table
+resource "aws_dynamodb_table" "lotion-30140980" {
+  name         = "lotion-30140980"
+  billing_mode = "PROVISIONED"
+
+  # up to 8KB read per second (eventually consistent)
+  read_capacity = 1
+
+  # up to 1KB per second
+  write_capacity = 1
+
+  # # we only need a student id to find an item in the table; therefore, we 
+  # # don't need a sort key here
+  # hash_key = "student_id"
+  hash_key = "email"
+  range_key = "note_id"
+
+
+
+  attribute {
+    name = "note_id"
+    type = "S"
+  }
+
+  attribute {
+    name = "email"
+    type = "S"
+  }
+}
