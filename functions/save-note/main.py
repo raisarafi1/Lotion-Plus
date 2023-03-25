@@ -1,9 +1,14 @@
+# add your save-note function here
+
 import boto3
 import json
 
 
+
+
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('lotion-30140980')
+
 
 def handler(event, context):
     if "httpMethod" not in event:
@@ -14,6 +19,7 @@ def handler(event, context):
     http_method = event["httpMethod"]
     email = event["headers"]["email"]
     access_token = event["headers"]["access_token"]
+
 
     if http_method == "POST":
         # Parse request body to get note data

@@ -6,6 +6,7 @@ import Empty from "./Empty";
 import FormattedDate from "./FormattedDate";
 import "react-quill/dist/quill.snow.css";
 
+
 function WriteBox({ edit }) {
   let { noteId } = useParams();
   noteId -= 1;
@@ -19,6 +20,7 @@ function WriteBox({ edit }) {
   const [noteWhen, setNoteWhen] = useState();
   const [id, setId] = useState("");
 
+
   useEffect(() => {
     setNoteBody(currentNote.body);
     setNoteTitle(currentNote.title);
@@ -29,6 +31,7 @@ function WriteBox({ edit }) {
     }
     setId(currentNote.id);
   }, [currentNote]);
+
 
   const save = () => {
     updateNote(
@@ -42,12 +45,14 @@ function WriteBox({ edit }) {
     );
   };
 
+
   const tryDelete = () => {
     const answer = window.confirm("Are you sure?");
     if (answer) {
       deleteNote(noteId);
     }
   };
+
 
   return id ? (
     <>
@@ -98,6 +103,15 @@ function WriteBox({ edit }) {
               <Link className="button" id="save-button" to="" onClick={save}>
                 Save
               </Link>
+
+
+
+
+              {/* <form method="POST" action="<your-lambda-function-url>">
+      <input type="submit" value="Press me">
+    </form> */}
+
+
               <Link
                 className="button"
                 id="delete-button"
@@ -125,5 +139,6 @@ function WriteBox({ edit }) {
     <Empty />
   );
 }
+
 
 export default WriteBox;

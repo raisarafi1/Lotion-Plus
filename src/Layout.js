@@ -3,8 +3,17 @@ import { Outlet, useNavigate, Link } from "react-router-dom";
 import NoteList from "./NoteList";
 import { v4 as uuidv4 } from "uuid";
 import { currentDate } from "./utils";
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import React from 'react';
+
+
+
 
 const localStorageKey = "lotion-v1";
+
 
 function Layout() {
   const navigate = useNavigate();
@@ -13,6 +22,32 @@ function Layout() {
   const [notes, setNotes] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [currentNote, setCurrentNote] = useState(-1);
+  const [ profile, setProfile ] = useState([]);
+
+
+
+
+ const renderApp= () => {
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(
+  <GoogleOAuthProvider clientId="1044081161578-7l1isngdgh3eg9j20b3orgqrclc3o2l7.apps.googleusercontent.com">
+      <React.StrictMode>
+        <div className =  "container">
+          <App />
+          </div>
+      </React.StrictMode>
+  </GoogleOAuthProvider>,
+  document.getElementById('root')
+);
+      };
+
+
+      const logOut = () => {
+        googleLogout();
+        setProfile(null);
+        renderApp();
+      };
+
 
   useEffect(() => {
     const height = mainContainerRef.current.offsetHeight;
@@ -27,9 +62,11 @@ function Layout() {
     }
   }, []);
 
+
   useEffect(() => {
     localStorage.setItem(localStorageKey, JSON.stringify(notes));
   }, [notes]);
+
 
   useEffect(() => {
     if (currentNote < 0) {
@@ -42,6 +79,7 @@ function Layout() {
     navigate(`/notes/${currentNote + 1}/edit`);
   }, [notes]);
 
+
   const saveNote = (note, index) => {
     note.body = note.body.replaceAll("<p><br></p>", "");
     setNotes([
@@ -53,11 +91,13 @@ function Layout() {
     setEditMode(false);
   };
 
+
   const deleteNote = (index) => {
     setNotes([...notes.slice(0, index), ...notes.slice(index + 1)]);
     setCurrentNote(0);
     setEditMode(false);
   };
+
 
   const addNote = () => {
     setNotes([
@@ -73,6 +113,7 @@ function Layout() {
     setCurrentNote(0);
   };
 
+
   return (
     <div id="container">
       <header>
@@ -87,7 +128,7 @@ function Layout() {
           </h1>
           <h6 id="app-moto">Like Notion, but worse.</h6>
         </div>
-        <aside>&nbsp;</aside>
+        <aside>&nbsp;<button onClick={logOut} className="logout-button">Log out</button></aside>
       </header>
       <div id="main-container" ref={mainContainerRef}>
         <aside id="sidebar" className={collapse ? "hidden" : null}>
@@ -110,5 +151,6 @@ function Layout() {
     </div>
   );
 }
+
 
 export default Layout;
