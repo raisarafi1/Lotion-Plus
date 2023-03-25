@@ -19,6 +19,7 @@ function WriteBox({ edit }) {
   const [noteWhen, setNoteWhen] = useState();
   const [id, setId] = useState("");
 
+
   useEffect(() => {
     setNoteBody(currentNote.body);
     setNoteTitle(currentNote.title);
@@ -120,6 +121,7 @@ function WriteBox({ edit }) {
           onChange={setNoteBody}
         />
       )}
+
     </>
   ) : (
     <Empty />

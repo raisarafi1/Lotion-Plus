@@ -1,8 +1,17 @@
+
+
+
 import { useEffect, useRef, useState } from "react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import NoteList from "./NoteList";
 import { v4 as uuidv4 } from "uuid";
 import { currentDate } from "./utils";
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import React from 'react';
+
 
 const localStorageKey = "lotion-v1";
 
@@ -13,6 +22,28 @@ function Layout() {
   const [notes, setNotes] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [currentNote, setCurrentNote] = useState(-1);
+  const [ profile, setProfile ] = useState([]);
+
+
+ const renderApp= () => {
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(
+  <GoogleOAuthProvider clientId="1044081161578-7l1isngdgh3eg9j20b3orgqrclc3o2l7.apps.googleusercontent.com">
+      <React.StrictMode>
+        <div className =  "container">
+          <App />
+          </div>
+      </React.StrictMode>
+  </GoogleOAuthProvider>,
+  document.getElementById('root')
+);
+      };
+
+      const logOut = () => {
+        googleLogout();
+        setProfile(null);
+        renderApp();
+      };
 
   useEffect(() => {
     const height = mainContainerRef.current.offsetHeight;
@@ -86,6 +117,9 @@ function Layout() {
             <Link to="/notes">Lotion</Link>
           </h1>
           <h6 id="app-moto">Like Notion, but worse.</h6>
+          <div id="logout-container">
+          <button onClick={logOut}>Log out</button>
+        </div>
         </div>
         <aside>&nbsp;</aside>
       </header>
