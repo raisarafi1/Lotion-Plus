@@ -1,3 +1,6 @@
+
+
+
 import { useEffect, useRef, useState } from "react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import NoteList from "./NoteList";
@@ -127,6 +130,9 @@ function Layout() {
             <Link to="/notes">Lotion</Link>
           </h1>
           <h6 id="app-moto">Like Notion, but worse.</h6>
+          <div id="logout-container">
+          <button onClick={logOut}>Log out</button>
+        </div>
         </div>
         <aside>&nbsp;<button onClick={logOut} className="logout-button">Log out</button></aside>
       </header>

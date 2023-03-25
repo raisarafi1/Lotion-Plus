@@ -19,6 +19,13 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <>
+  {/* <GoogleOAuthProvider clientId="463122565328-km4ea940dujvniojpe8rrc1aljg5u3v8.apps.googleusercontent.com"> */}
+  <GoogleOAuthProvider clientId="463122565328-km4ea940dujvniojpe8rrc1aljg5u3v8.apps.googleusercontent.com">
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+  </GoogleOAuthProvider>
+  { document.getElementById('root') }
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
@@ -29,8 +36,8 @@ root.render(
             element={<WriteBox edit={true} />}
           />
           <Route path="/notes/:noteId" element={<WriteBox edit={false} />} />
-          {/* any other path */}
-          <Route path="*" element={<Empty />} />
+          {/ any other path /}
+          <Route path="" element={<Empty />} />
         </Route>
       </Routes>
     </BrowserRouter>

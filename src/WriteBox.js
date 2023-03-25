@@ -134,6 +134,7 @@ function WriteBox({ edit }) {
           onChange={setNoteBody}
         />
       )}
+
     </>
   ) : (
     <Empty />
